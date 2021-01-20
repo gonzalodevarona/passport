@@ -12,8 +12,10 @@ module.exports = router;
 /* GET specific category */
 router.get('/category/:id', function(req, res, next) {
   const idCategory = req.params.id;
+  
+  let idCategoryInt = parseInt(idCategory);
 
-  let category = data.find( (item) => item.id === idCategory);
+  let category = data.find( (item) => item.id === idCategoryInt);
 
   if(category === undefined){
     res.json({
@@ -25,7 +27,7 @@ router.get('/category/:id', function(req, res, next) {
 
   }
 
-  res.json(category);
+  
 });
 
 
@@ -34,7 +36,9 @@ router.get('/category/:idCategory/product/:idProduct', function(req, res, next) 
   const idCategory = req.params.idCategory;
   const idProduct = req.params.idProduct;
 
-  let category = data.find( (item) => item.id === idCategory);
+  let idCategoryInt = parseInt(idCategory);
+
+  let category = data.find( (item) => item.id === idCategoryInt);
 
   if(category === undefined){
     res.json({
@@ -42,9 +46,18 @@ router.get('/category/:idCategory/product/:idProduct', function(req, res, next) 
     });
 
   } else{
-   
-    let product = category.products.find( (item) => item.id === idProduct);
-    res.json(product);
+    let idProductInt = parseInt(idProduct);
+
+    let product = category.products.find( (item) => item.id === idProductInt);
+
+    if(product === undefined){
+      res.json({
+        message: "Not found product"
+      });
+    } else{
+      res.json(product);
+  
+    }
 
   }
 
